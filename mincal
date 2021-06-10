@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Oppgave fra kurs
+# Skriver kalender fra gitt årstall til tekstfil.
+# Skriv mincal -h for usage.
+
+usage() {
+	echo "Usage: $0 [-u utfil] [-h] [år]"
+	return
+}
+
+
+filnavn=""
+aar=""
+while [ $# -gt 0 ]; do
+	case $1 in
+		-u | --ut )  shift
+					 filnavn="$1"
+					 ;;
+		-h | --help) usage
+					 exit
+					 ;;
+		*)			 aar="$1"
+	esac
+	shift
+done
+
+if [[ -z $aar ]]; then
+	aar=$(date +%Y)
+fi
+
+if [[ -z $filnavn ]]; then
+	cal -y $aar
+else
+	cal -y $aar >$filnavn
+fi
+
+
+
+

@@ -1,0 +1,33 @@
+#!/bin/bash
+
+
+# Oppgave fra kurset.
+# Legger til "venner"i en tekst fil.
+# "CSV"
+
+fil="venner.txt"
+
+echo "
+	Oppgi venne opplysning:
+"
+
+read -p "Navn > " navn
+
+while [[ -z "$navn" ]]; do
+
+	echo "Mangler navn"
+	read -p "Navn > " navn
+
+	if [[ -n "$navn" ]]; then
+		break
+	fi
+done
+
+
+read -p "fdato > " fdato
+read -p "epost > " epost
+read -p "postadr > " postadr
+read -p "tlfnr > " tlfnr
+
+
+echo "$navn;$fdato;$epost;$postadr;$tlfnr" >> $fil

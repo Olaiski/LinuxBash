@@ -1,0 +1,132 @@
+#!/bin/bash
+
+# Oppgave fra kurset.
+
+# Program som lar bruker velge fra meny.
+# Skriver stjerner, siffer eller bokstaver,
+# brukeren velger også bredde og høyde
+
+printStjerner() {
+	local b=$1
+	local h=$2
+
+	echo 
+
+	for (( i = 1; i <= $h; i++ )); do
+		printf "*"
+		for (( j = 1; j < $b; j++ )); do
+			printf "*"
+		done
+		echo
+	done
+
+	echo
+	
+}
+
+printSiffer() {
+	local b=$1
+	local h=$2
+
+	echo
+
+	for (( i = 1; i <= $h; i++ )); do
+		local r=$RANDOM
+		r=$((r % 10))
+		printf "$r"
+		for (( j = 1; j < $b; j++ )); do
+			local r2=$RANDOM
+			r2=$((r2 % 10))
+			printf "$r2"
+		done
+		echo
+	done
+
+	echo
+}
+# Lag ny variant som bytter ut siffer 0..9 med bokstaver A..J. 
+# Kan gjøres med en case inni den doble løkka.
+
+# Lag ny variant der tilfeldig trekning, konvertering til bokstav, 
+# og utskrift av bokstaven, gjøres i en egen funksjon, slik at den doble 
+# løkka blir kortere og lettere å forstå. Den doble løkka skal da stort 
+# sett gjøre et kall på denne funksjonen
+printBokstaver() {
+	local b=$1
+	local h=$2
+
+	echo
+
+	for (( i = 1; i <= $h; i++ )); do
+		local r=$RANDOM
+		r=$((r % 10))
+		tilfeldig $r
+		for (( j = 1; j < $b; j++ )); do
+			local r2=$RANDOM
+			r2=$((r2 % 10))
+			tilfeldig $r2
+		done
+		echo
+	done
+
+	echo
+}
+
+tilfeldig() {
+	local i=$1
+
+
+	case $i in
+		0 ) printf "A" ;;
+		1 ) printf "B" ;;
+		2 ) printf "C" ;;
+		3 ) printf "D" ;;
+		4 ) printf "E" ;;
+		5 ) printf "F" ;;
+		6 ) printf "G" ;;
+		7 ) printf "H" ;;
+		8 ) printf "I" ;;
+		9 ) printf "J" ;;
+		* ) printf "!"
+	esac
+}
+
+
+
+while true; do
+
+echo "Velg: 
+1) Stjerner
+2) Siffer
+3) Bokstaver
+0) Avslutt
+"
+
+read -p "Velg ønsket prog (1..3), og bredde og Høyde > " valg b h
+
+if [[ "$valg" -eq 0 ]]; then
+	break
+fi
+
+
+if [[ "$b" -lt 1 ]]; then
+	echo
+	echo "Bredde må være større enn 0"
+fi
+
+if [[ "$h" -lt 1 ]]; then
+	echo
+	echo "Høyde må være større enn 0"
+fi
+
+
+	case $valg in
+		1 ) printStjerner $b $h ;;
+		2 ) printSiffer $b $h ;;
+		3 ) printBokstaver $b $h ;;
+		0 ) break ;;
+	esac
+
+
+
+done

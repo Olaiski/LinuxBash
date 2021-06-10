@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Oppgave tekst:
+# Lag et skallprogram venn som forventer én parameter: 
+# Navnet på en venn i registeret, eventuelt deler av navnet. 
+# Programmet skal skrive ut de linjer av venneregisteret som matcher det oppgitte navn. 
+# Dersom det ikke får noen parameter, skal det gi en-linjes «Usage» -bruksanvisning. 
+# Du kan skrive ut alle linjer som matcher, eller enda bedre men vanskeligere: 
+# de som matcher i navnefelte
+
+usage() {
+	echo "usage: $PROGNAME [navn]"
+	return
+}
+
+
+if [[ -z "$1" || "$#" -gt 1 ]]; then
+	usage
+	exit 1
+fi
+
+
+FIL="venner.txt"
+
+grep $1 $FIL
+
+echo $1
+

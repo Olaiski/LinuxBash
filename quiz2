@@ -1,0 +1,68 @@
+#!/bin/bash
+
+# Quiz program som henter spørsmålene fra tekst fil.
+# Spørsmålene bygget opp som: SPM1:s1:s2:3:riktigsvar = s1 er riktig.
+
+spmArr=()
+svarArr=()
+
+
+hentSpørsmål() {
+	local fnavn="$1"
+	local spm=
+	local s1=
+	local s2=
+	local s3=
+	local poeng=0
+
+
+	if [[ "$#" -gt 1 ]]; then
+		echo "For mange params"
+	fi
+
+	local spmCount=1
+	while IFS=: read spm s1 s2 s3 rsvar; do
+		echo "Spørsmål ($spmCount): $spm"
+		echo "Alt 1: $s1"
+		echo "Alt 2: $s2"
+		echo "Alt 3: $s3"
+
+	
+		read -p "Velg alt.: " answer < /dev/tty
+
+		if [[ "$answer" -eq "$rsvar" ]]; then
+			echo "Rett"
+			poeng=$((poeng+1))
+		else
+			echo "Galt"
+		fi
+
+		
+		spmCount=$((spmCount+1))	
+
+		echo
+		echo "Total score: $poeng" 
+
+	done < $fnavn
+
+}
+
+read -p "Vil du ha spørsmålene på skjerm? [y/n] > "
+
+case "$REPLY" in
+	y|Y) read -p "Filnavn? > " fnavn
+		 ;;
+	n|N) echo "Avslutter"
+		 exit 1
+		 ;;
+	  *) echo "Ikke gyldig" >&2
+		 exit
+		 ;;
+esac
+
+hentSpørsmål $fnavn
+
+
+
+
+
